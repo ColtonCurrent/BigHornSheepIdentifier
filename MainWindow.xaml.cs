@@ -39,32 +39,37 @@ namespace AppDemo
             { //checks if the file path exists 
                 URLBlock.Text = path.FileName; //displays file path in text box
             }
-            //executepython(path.FileName);
-            directory = path.FileName;
-            //return path.FileName;
+            directory = path.FileName; //set string directory to file path
+            
         }
         private void Study_Area(object sender, TextChangedEventArgs e)
         {
-            
+            //will grab study area
         }
 
         private void Submit_clicked(object sender, RoutedEventArgs e)
         {
-            //executepython(directory);
-            ProcessStartInfo startInfo = new ProcessStartInfo(); //initializes new instance of process
-            startInfo.FileName = "C:\\Users\\nigel\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"; //gets the application to start
-            startInfo.Arguments = $"test.py \"{directory}\""; // Pass the selected directory as an argument to the Python script
-            startInfo.RedirectStandardOutput = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
-        }
-        /*
-        private void executepython(string directory)
-        {
-            
 
-           
+            string fileName = @"C:\\Users\\nigel\\source\\repos\\test.py"; //sets file path for python script(test.py is our testing script)
+            Process p = new Process();
+
+            p.StartInfo = new ProcessStartInfo(@"C:\\Users\\nigel\\AppData\\Local\\Programs\\Python\\Python37\\python", fileName)//sets python.exe file path and unites with the script file path
+            {
+
+                RedirectStandardOutput = true, 
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+                Arguments = string.Format("{0} {1}", fileName, directory)//sends directory variable to the python script via cmd line argument
+            };
+
+            p.Start();
+            string output = p.StandardOutput.ReadToEnd();
+            string error = p.StandardError.ReadToEnd();
+            Console.WriteLine(output);
+            Console.WriteLine(error);
+            p.WaitForExit();
+
         }
-        */
     }
 }
