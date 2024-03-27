@@ -61,9 +61,8 @@ namespace AppDemo
         private void bighornWorker_DoWork(object Sender, System.ComponentModel.DoWorkEventArgs e)
         {
             //studyArea = StudyArea.Text.Replace(" ", "_");
-            if(studyArea == "") { studyArea = "Weird but ok"; }
             //studyArea = "Weird but ok";
-            if (studyArea != "" && siteName != "")
+            if (studyArea != "" || siteName != "")
             {
                 string fileName = @"E:\\CS495\\FInalProject\\CS495Project\\3_class_predictions_and_file_writing.py"; //sets file path for python script(test.py is our testing script)
                                                                                             //string fileName = @"E:\\CS495\\FInalProject\\CS495Project\\test.py";
