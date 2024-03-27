@@ -26,15 +26,16 @@ namespace AppDemo
      
     public partial class MainWindow : Window
     {
+        //Initialize our three user inputs
         string studyArea = "";
         string siteName = "";
         string directory = "";
-        System.ComponentModel.BackgroundWorker bighornWorker = new System.ComponentModel.BackgroundWorker();
+        System.ComponentModel.BackgroundWorker bighornWorker = new System.ComponentModel.BackgroundWorker();// create an instance of the BackgroundWorker class
         public MainWindow()
         {
            
             InitializeComponent();
-            bighornWorker.DoWork += bighornWorker_DoWork;
+            bighornWorker.DoWork += bighornWorker_DoWork;//assosiate our do work function with the DoWork method of our BackgroundWorker class
         }
         
         private void upload_Click(object sender, RoutedEventArgs e)
@@ -52,43 +53,38 @@ namespace AppDemo
 
         private void Submit_clicked(object sender, RoutedEventArgs e)
         {
-            studyArea = StudyArea.Text;
-            siteName = SiteName.Text;
-            bighornWorker.RunWorkerAsync();
+            studyArea = StudyArea.Text;//grabs the StudyArea 
+            siteName = SiteName.Text;//grabs the SiteName
+            bighornWorker.RunWorkerAsync();//starts a new thread and calls the DoWork method
 
         }
 
         private void bighornWorker_DoWork(object Sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            //studyArea = StudyArea.Text.Replace(" ", "_");
-            //studyArea = "Weird but ok";
-            if (studyArea != "" || siteName != "")
+            if (studyArea != "" || siteName != "")//Only runs the python file if the use has entered a site name and study area
             {
-                string fileName = @"E:\\CS495\\FInalProject\\CS495Project\\3_class_predictions_and_file_writing.py"; //sets file path for python script(test.py is our testing script)
-                                                                                            //string fileName = @"E:\\CS495\\FInalProject\\CS495Project\\test.py";
-                Process p = new Process();
+                string fileName = @"E:\\CS495\\FInalProject\\CS495Project\\3_class_predictions_and_file_writing.py"; //sets file path for python script
+                                                                                            
+                Process p = new Process();//creates a new process
 
 
-                //p.StartInfo = new ProcessStartInfo(@"C:\\Users\\roomk\\AppData\\Local\\Programs\\Python\\Python312\\python", fileName)//sets python.exe file path and unites with the script file path
-
-
-                p.StartInfo = new ProcessStartInfo(@"C:\\Python311\\python", fileName)
+                p.StartInfo = new ProcessStartInfo(@"C:\\Python311\\python", fileName)//graps an instance of python and starts the process given in fileName
                 {
 
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     CreateNoWindow = true,
-                    //Arguments = string.Format("{0} {1}", fileName, directory)
-                    Arguments = string.Format("{0} {1} {2} {3}", fileName, directory, studyArea.Replace(" ", "_"), siteName.Replace(" ", "_"))//sends directory variable to the python script via cmd line argument
+                    //sends directory, study area, and site name variables to the python script via cmd line argument
+                    Arguments = string.Format("{0} {1} {2} {3}", fileName, directory, studyArea.Replace(" ", "_"), siteName.Replace(" ", "_"))//replaces any spaces with a _ 
                 };
 
-                p.Start();
+                p.Start();//stants the process
                 string output = p.StandardOutput.ReadToEnd();
                 string error = p.StandardError.ReadToEnd();
                 Console.WriteLine(output);
                 Console.WriteLine(error);
-                p.WaitForExit();
+                p.WaitForExit();//waits until the process has exited.
 
             }
         }

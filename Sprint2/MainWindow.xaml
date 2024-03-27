@@ -7,14 +7,22 @@
         mc:Ignorable="d"
         Title="BigHorn Sheep Identifier" Height="450" Width="800">
     <Grid>
+        <!-- Upload Folder -->
         <Button Content="Upload Folder" HorizontalAlignment="Left" Margin="150,75,0,0" VerticalAlignment="Top" Height="23" Width="93" Click="upload_Click"/>
+        <TextBlock x:Name="URLBlock" HorizontalAlignment="Left" Margin="262,79,0,0" TextWrapping="Wrap" Text="URLBlock" VerticalAlignment="Top" Height="19" Width="188"/>
+        
+        <!-- Study Area -->
         <TextBox x:Name="StudyArea" HorizontalAlignment="Left" Margin="145,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233" Height="20"/>
         <Label Target="{Binding ElementName=StudyArea}" HorizontalAlignment="Left" Margin="75,46,0,-46">Study Area:</Label>
+        
+        <!-- Site Name -->
         <TextBox x:Name ="SiteName" HorizontalAlignment="Left" Margin="528,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233
                  " Height="20" RenderTransformOrigin="-0.14,2.207"/>
         <Label Target="{Binding ElementName=SiteName}" HorizontalAlignment="Left" Margin="461,46,0,-41">Site Name:</Label>
+
+        <!-- Submit -->
         <Button x:Name="submit" Content="Submit" HorizontalAlignment="Left" Margin="668,72,0,0" VerticalAlignment="Top" Width="94" Height="20" Click="Submit_clicked"/>
-        <TextBlock x:Name="URLBlock" HorizontalAlignment="Left" Margin="262,79,0,0" TextWrapping="Wrap" Text="URLBlock" VerticalAlignment="Top" Height="19" Width="188"/>
+        
 
     </Grid>
 </Window>
