@@ -67,6 +67,7 @@ namespace AppDemo
             if (studyArea != "" || siteName != "")//Only runs the python file if the use has entered a site name and study area
             {
                 Dispatcher.BeginInvoke(new ThreadStart(() => Completion.Content = "In Progress"));
+                //string pythonModel = @"prediction_file_writing.exe";
                 string pythonModel = @"3_class_predictions_and_file_writing.exe";
 
 
