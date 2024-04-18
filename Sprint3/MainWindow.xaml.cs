@@ -16,6 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Python.Runtime;
+using CsvHelper;
+using CsvHelper.Configuration.Attributes;
+using System.Globalization;
 
 namespace AppDemo
 {
@@ -89,18 +92,92 @@ namespace AppDemo
                                 studyArea.Replace(" ", "_"), 
                                 siteName.Replace(" ", "_"))//replaces any spaces with a _ 
                 };
-
                 p.Start();//stants the process
                 string output = p.StandardOutput.ReadToEnd();
                 string error = p.StandardError.ReadToEnd();
                 Console.WriteLine(output);
                 Console.WriteLine(error);
                 p.WaitForExit();//waits until the process has exited
-                
+                ImageGallery();
                 Dispatcher.BeginInvoke(new ThreadStart(() => Completion.Content = "Model Complete"));//Grabs the label from the owning thread and modifies it
             }
 
         }
-        
+        private void ImageGallery()
+{
+    var csvName = $@"{studyArea}-{siteName}.csv";
+    var directoryCSV = $@"{directory}"+"\\"+$"{csvName}";
+    Trace.WriteLine(directoryCSV);
+    var images = new List<string>();
+    string[] folder = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly);
+    
+    Trace.WriteLine(csvName);
+    int count = 0;
+    if (File.Exists(directoryCSV))
+    {
+        Trace.WriteLine("Test");
+        try
+        {
+            int index = 0;
+            using (var reader = new StreamReader(directoryCSV))
+            {
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    var records = csv.GetRecords<ImageNameCSV>().ToList();
+                    Trace.WriteLine(records.Count);
+                    foreach (var record in records)
+                    {
+                        if (record.Identification == "Bighorn Sheep" && images.Count < 10) { images.Add(record.ImageName); }
+                    }
+                    Trace.WriteLine(images.Count);
+                    foreach (var i in images)
+                    {
+                        Trace.WriteLine(i);
+                        if (index != 10)
+                        {
+                            foreach (string file in folder)
+                            {
+                                string[] tempImage = file.Split("\\");
+                                var imageName = tempImage.Last();
+                                //Trace.WriteLine(imageName);
+                                if (imageName == i)
+                                {
+                                    this.Dispatcher.Invoke(() =>
+                                    {
+
+                                        BitmapImage bitmap = new BitmapImage();
+                                        bitmap.BeginInit();
+                                        bitmap.UriSource = new Uri(file);
+                                        bitmap.EndInit();
+                                        if (count == 0) { image1.Source = bitmap; }
+                                        if (count == 1) { image2.Source = bitmap; }
+                                        if (count == 2) { image3.Source = bitmap; }
+                                        if (count == 3) { image4.Source = bitmap; }
+                                        if (count == 4) { image5.Source = bitmap; }
+                                        if (count == 5) { image6.Source = bitmap; }
+                                        if (count == 6) { image7.Source = bitmap; }
+                                        if (count == 7) { image8.Source = bitmap; }
+                                        if (count == 8) { image9.Source = bitmap; }
+                                        if (count == 9) { image10.Source = bitmap; }
+                                    });
+                                    count++;
+                                }
+                            }
+
+                        }
+                        Console.WriteLine(images.Count);
+                        //Console.WriteLine(index);
+                        index++;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+    else { Console.WriteLine("file not found"); }
+}
     }
 }
