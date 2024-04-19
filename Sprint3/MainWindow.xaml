@@ -32,7 +32,17 @@
 
         <!-- Submit -->
         <Button x:Name="submit" Content="Submit" HorizontalAlignment="Left" Margin="668,72,0,0" VerticalAlignment="Top" Width="94" Height="20" Click="Submit_clicked"/>
-        
+        <Image x:Name="image1" HorizontalAlignment="Left" Height="90" Margin="28,162,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image2" HorizontalAlignment="Left" Height="90" Margin="134,162,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image3" HorizontalAlignment="Left" Height="90" Margin="246,162,0,0" VerticalAlignment="Top" Width="90"/>
+
+        <Image x:Name="image4" HorizontalAlignment="Left" Height="90" Margin="362,162,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image5" HorizontalAlignment="Left" Height="90" Margin="483,162,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image6" HorizontalAlignment="Left" Height="90" Margin="28,302,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image7" HorizontalAlignment="Left" Height="90" Margin="134,302,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image8" HorizontalAlignment="Left" Height="90" Margin="246,302,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image9" HorizontalAlignment="Left" Height="90" Margin="362,302,0,0" VerticalAlignment="Top" Width="90"/>
+        <Image x:Name="image10" HorizontalAlignment="Left" Height="90" Margin="483,302,0,0" VerticalAlignment="Top" Width="90"/>
 
     </Grid>
 </Window>
