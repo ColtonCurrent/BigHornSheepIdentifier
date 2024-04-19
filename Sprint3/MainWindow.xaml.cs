@@ -25,7 +25,15 @@ namespace AppDemo
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    public class ImageNameCSV //class to structure data from CSV
+{
+    [Name("Image Name")]
+    public string? name { get; set; }
 
+    [Name("Identification")]
+    public string? identification { get; set; }
+
+}
      
     public partial class MainWindow : Window
     {
@@ -105,46 +113,38 @@ namespace AppDemo
         }
         private void ImageGallery()
 {
-    var csvName = $@"{studyArea}-{siteName}.csv";
-    var directoryCSV = $@"{directory}"+"\\"+$"{csvName}";
-    Trace.WriteLine(directoryCSV);
-    var images = new List<string>();
-    string[] folder = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly);
-    
-    Trace.WriteLine(csvName);
+    var csvName = $@"{studyArea}-{siteName}.csv"; //stores the lastest csv file name 
+    var directoryCSV = $@"{directory}"+"\\"+$"{csvName}"; //creates the directory for the csv
+    var imagesList = new List<string>();//stores image names from the clients folder
+    string[] folder = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly); //grabs images from folder
     int count = 0;
     if (File.Exists(directoryCSV))
     {
-        Trace.WriteLine("Test");
         try
         {
             int index = 0;
             using (var reader = new StreamReader(directoryCSV))
             {
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture)) //reads csv data
                 {
-                    var records = csv.GetRecords<ImageNameCSV>().ToList();
-                    Trace.WriteLine(records.Count);
+                    var records = csv.GetRecords<ImageNameCSV>().ToList(); //enumerates through csv
                     foreach (var record in records)
                     {
-                        if (record.Identification == "Bighorn Sheep" && images.Count < 10) { images.Add(record.ImageName); }
+                        if (record.identification == "Bighorn Sheep" && images.Count < 10) { imagesList.Add(record.name); } //adds the desired data to imagesList
                     }
-                    Trace.WriteLine(images.Count);
-                    foreach (var i in images)
+                    foreach (var i in imagesList)
                     {
-                        Trace.WriteLine(i);
                         if (index != 10)
                         {
                             foreach (string file in folder)
                             {
-                                string[] tempImage = file.Split("\\");
-                                var imageName = tempImage.Last();
+                                string[] temp = file.Split("\\");
+                                var tempImageName = temp.Last();
                                 //Trace.WriteLine(imageName);
-                                if (imageName == i)
+                                if (tempImageName == i) //compares the name of the current image in the folder to the name of the image from imagesList.
                                 {
                                     this.Dispatcher.Invoke(() =>
                                     {
-
                                         BitmapImage bitmap = new BitmapImage();
                                         bitmap.BeginInit();
                                         bitmap.UriSource = new Uri(file);
@@ -165,8 +165,6 @@ namespace AppDemo
                             }
 
                         }
-                        Console.WriteLine(images.Count);
-                        //Console.WriteLine(index);
                         index++;
                     }
                 }
