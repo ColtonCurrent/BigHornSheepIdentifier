@@ -112,70 +112,70 @@ namespace AppDemo
 
         }
         private void ImageGallery()
-{
-    var csvName = $@"{studyArea}-{siteName}.csv"; //stores the lastest csv file name 
-    var directoryCSV = $@"{directory}"+"\\"+$"{csvName}"; //creates the directory for the csv
-    var imagesList = new List<string>();//stores image names from the clients folder
-    string[] folder = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly); //grabs images from folder
-    int count = 0;
-    if (File.Exists(directoryCSV))
-    {
-        try
         {
-            int index = 0;
-            using (var reader = new StreamReader(directoryCSV))
+            var csvName = $@"{studyArea}-{siteName}.csv"; //stores the lastest csv file name 
+            var directoryCSV = $@"{directory}"+"\\"+$"{csvName}"; //creates the directory for the csv
+            var imagesList = new List<string>();//stores image names from the clients folder
+            string[] folder = Directory.GetFiles(directory, "*.*", SearchOption.TopDirectoryOnly); //grabs images from folder
+            int count = 0;
+            if (File.Exists(directoryCSV))
             {
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture)) //reads csv data
+                try
                 {
-                    var records = csv.GetRecords<ImageNameCSV>().ToList(); //enumerates through csv
-                    foreach (var record in records)
+                    int index = 0;
+                    using (var reader = new StreamReader(directoryCSV))
                     {
-                        if (record.identification == "Bighorn Sheep" && images.Count < 10) { imagesList.Add(record.name); } //adds the desired data to imagesList
-                    }
-                    foreach (var i in imagesList)
-                    {
-                        if (index != 10)
+                        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture)) //reads csv data
                         {
-                            foreach (string file in folder)
+                            var records = csv.GetRecords<ImageNameCSV>().ToList(); //enumerates through csv
+                            foreach (var record in records)
                             {
-                                string[] temp = file.Split("\\");
-                                var tempImageName = temp.Last();
-                                //Trace.WriteLine(imageName);
-                                if (tempImageName == i) //compares the name of the current image in the folder to the name of the image from imagesList.
-                                {
-                                    this.Dispatcher.Invoke(() =>
-                                    {
-                                        BitmapImage bitmap = new BitmapImage();
-                                        bitmap.BeginInit();
-                                        bitmap.UriSource = new Uri(file);
-                                        bitmap.EndInit();
-                                        if (count == 0) { image1.Source = bitmap; }
-                                        if (count == 1) { image2.Source = bitmap; }
-                                        if (count == 2) { image3.Source = bitmap; }
-                                        if (count == 3) { image4.Source = bitmap; }
-                                        if (count == 4) { image5.Source = bitmap; }
-                                        if (count == 5) { image6.Source = bitmap; }
-                                        if (count == 6) { image7.Source = bitmap; }
-                                        if (count == 7) { image8.Source = bitmap; }
-                                        if (count == 8) { image9.Source = bitmap; }
-                                        if (count == 9) { image10.Source = bitmap; }
-                                    });
-                                    count++;
-                                }
+                                if (record.identification == "Bighorn Sheep" && images.Count < 10) { imagesList.Add(record.name); } //adds the desired data to imagesList
                             }
-
+                            foreach (var i in imagesList)
+                            {
+                                if (index != 10)
+                                {
+                                    foreach (string file in folder)
+                                    {
+                                        string[] temp = file.Split("\\");
+                                        var tempImageName = temp.Last();
+                                        //Trace.WriteLine(imageName);
+                                        if (tempImageName == i) //compares the name of the current image in the folder to the name of the image from imagesList.
+                                        {
+                                            this.Dispatcher.Invoke(() =>
+                                            {
+                                                BitmapImage bitmap = new BitmapImage();
+                                                bitmap.BeginInit();
+                                                bitmap.UriSource = new Uri(file);
+                                                bitmap.EndInit();
+                                                if (count == 0) { image1.Source = bitmap; }
+                                                if (count == 1) { image2.Source = bitmap; }
+                                                if (count == 2) { image3.Source = bitmap; }
+                                                if (count == 3) { image4.Source = bitmap; }
+                                                if (count == 4) { image5.Source = bitmap; }
+                                                if (count == 5) { image6.Source = bitmap; }
+                                                if (count == 6) { image7.Source = bitmap; }
+                                                if (count == 7) { image8.Source = bitmap; }
+                                                if (count == 8) { image9.Source = bitmap; }
+                                                if (count == 9) { image10.Source = bitmap; }
+                                            });
+                                            count++;
+                                        }
+                                    }
+        
+                                }
+                                index++;
+                            }
                         }
-                        index++;
                     }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
             }
+            else { Console.WriteLine("file not found"); }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-        }
-    }
-    else { Console.WriteLine("file not found"); }
-}
     }
 }
